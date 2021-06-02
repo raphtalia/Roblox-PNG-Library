@@ -8,33 +8,33 @@ function BinaryReader.new(buffer)
 		Buffer = buffer;
 		Length = #buffer;
 	}
-	
+
 	return setmetatable(reader, BinaryReader)
 end
 
 function BinaryReader:ReadByte()
 	local buffer = self.Buffer
 	local pos = self.Position
-	
+
 	if pos <= self.Length then
 		local result = buffer:sub(pos, pos)
 		self.Position = pos + 1
-		
+
 		return result:byte()
 	end
 end
 
 function BinaryReader:ReadBytes(count, asArray)
 	local values = {}
-	
+
 	for i = 1, count do
 		values[i] = self:ReadByte()
 	end
-	
+
 	if asArray then
 		return values
 	end
-	
+
 	return unpack(values)
 end
 
@@ -52,7 +52,7 @@ function BinaryReader:TwosComplementOf(value, numBits)
 	if value >= (2 ^ (numBits - 1)) then
 		value = value - (2 ^ numBits)
 	end
-	
+
 	return value
 end
 
@@ -69,7 +69,7 @@ end
 function BinaryReader:ReadUInt32()
 	local upper = self:ReadUInt16()
 	local lower = self:ReadUInt16()
-	
+
 	return (upper * 65536) + lower
 end
 
@@ -82,13 +82,13 @@ function BinaryReader:ReadString(length)
     if length == nil then
         length = self:ReadByte()
     end
-    
+
     local pos = self.Position
     local nextPos = math.min(self.Length, pos + length)
-    
+
     local result = self.Buffer:sub(pos, nextPos - 1)
     self.Position = nextPos
-    
+
     return result
 end
 

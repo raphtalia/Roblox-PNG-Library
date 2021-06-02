@@ -1,10 +1,10 @@
 local function tEXt(file, chunk)
 	local data = chunk.Data
 	local key, value = "", ""
-	
+
 	for byte in data:IterateBytes() do
 		local char = string.char(byte)
-		
+
 		if char == '\0' then
 			key = value
 			value = ""
@@ -12,7 +12,7 @@ local function tEXt(file, chunk)
 			value = value .. char
 		end
 	end
-	
+
 	file.Metadata[key] = value
 end
 

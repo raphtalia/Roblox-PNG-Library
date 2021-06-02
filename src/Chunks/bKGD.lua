@@ -1,11 +1,11 @@
 local function bKGD(file, chunk)
 	local data = chunk.Data
-	
+
 	local bitDepth = file.BitDepth
 	local colorType = file.ColorType
-	
+
 	bitDepth = (2 ^ bitDepth) - 1
-	
+
 	if colorType == 3 then
 		local index = data:ReadByte()
 		file.BackgroundColor = file.Palette[index]
